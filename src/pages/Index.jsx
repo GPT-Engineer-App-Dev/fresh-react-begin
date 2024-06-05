@@ -1,7 +1,9 @@
-import { Box, Container, Flex, Text, VStack, Link } from "@chakra-ui/react";
+import { Box, Container, Flex, Text, VStack, Link, Button } from "@chakra-ui/react";
+import { useSupabaseAuth, SupabaseAuthUI } from "../integrations/supabase/auth.jsx";
 import { Link as RouterLink } from "react-router-dom";
 
 const Index = () => {
+  const { session, logout } = useSupabaseAuth();
   return (
     <Box>
       {/* Navigation Bar */}
@@ -21,6 +23,13 @@ const Index = () => {
         <VStack spacing={4}>
           <Text fontSize="2xl">Welcome to My Website</Text>
           <Text>This is a simple, responsive layout using Chakra UI.</Text>
+        {!session ? (
+            <Box width="100%" maxW="md" p={4} borderWidth={1} borderRadius="md" boxShadow="md">
+              <SupabaseAuthUI />
+            </Box>
+          ) : (
+            <Button onClick={logout} colorScheme="red">Logout</Button>
+          )}
         </VStack>
       </Container>
 
